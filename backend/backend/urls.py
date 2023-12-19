@@ -9,5 +9,8 @@ router.register('todos', views.TodoView, 'todo')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/create/', views.CreateUserView.as_view(), name='create'),
+    path('api/token/', views.CreateTokenView.as_view(), name='token'),
+    path('api/me/', views.ManageUserView.as_view(), name='me'),
     path('api/', include(router.urls))
 ]
