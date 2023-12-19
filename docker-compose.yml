@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
+      - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DEBUG=${DJANGO_DEBUG}
+
+  db:
+    image: postgres:16.1-alpine3.19
+    restart: on-failure
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - '5432:5432'
+    volumes:
+      - dbdata:/var/lib/postgresql/data/
+
+volumes:
+  dbdata:
