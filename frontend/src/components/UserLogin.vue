@@ -1,16 +1,18 @@
 <template>
-    <div>
-      <h2>Sign In</h2>
-      <form @submit.prevent="login">
-        <label for="username">Username:</label>
-        <input type="text" v-model="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" v-model="password" required minlength="5">
-        <br>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  <div>
+    <h2>Sign In</h2>
+    <form @submit.prevent="login">
+      <label for="username">Username:</label>
+      <input type="text" v-model="username" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" v-model="password" required minlength="5" />
+      <br />
+      <button type="submit">Submit</button>
+    </form>
+
+    <p>Don't have an account? <router-link to="/register">Sign up</router-link></p>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -24,16 +26,15 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/token/",
-          {
-            username: this.username,
-            password: this.password,
-          }
-        );
+        const response = await axios.post("http://localhost:8000/api/token/", {
+          username: this.username,
+          password: this.password,
+        });
 
         const token = response.data.token;
         localStorage.setItem("token", token);
+
+        this.$router.push("/");
 
       } catch (error) {
         console.error("Login failed", error);

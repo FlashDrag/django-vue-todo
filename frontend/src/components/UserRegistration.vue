@@ -3,16 +3,18 @@
     <h2>Sign Up</h2>
     <form @submit.prevent="register">
       <label for="username">Username:</label>
-      <input type="text" v-model="username" required>
-      <br>
+      <input type="text" v-model="username" required />
+      <br />
       <label for="password">Password:</label>
-      <input type="password" v-model="password" required minlength="5">
-      <br>
+      <input type="password" v-model="password" required minlength="5" />
+      <br />
       <label for="password2">Confirm Password:</label>
-      <input type="password" v-model="password2" required minlength="5">
-      <br>
+      <input type="password" v-model="password2" required minlength="5" />
+      <br />
       <button type="submit">Submit</button>
     </form>
+
+    <p>Already have an account? <router-link to="/login">Sign in</router-link></p>
   </div>
 </template>
 
@@ -38,17 +40,15 @@ export default {
     },
     async performRegistration() {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/create/",
-          {
-            username: this.username,
-            password: this.password,
-          }
-        );
+        const response = await axios.post("http://localhost:8000/api/create/", {
+          username: this.username,
+          password: this.password,
+        });
 
         const token = response.data.token;
         localStorage.setItem("token", token);
 
+        this.$router.push("/");
       } catch (error) {
         console.error("Registration failed", error);
         if (error.response.data.username) {
