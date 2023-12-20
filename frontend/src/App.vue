@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <button v-if="isLoggedIn" @click="logout">Logout</button>
-    <h1>Todo List</h1>
+    <button v-if="isLoggedIn" @click="logout" class="logout-button">Logout</button>
     <router-view />
   </div>
 </template>
@@ -30,3 +29,17 @@ export default {
   },
 };
 </script>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+.logout-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>
