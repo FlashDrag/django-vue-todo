@@ -35,5 +35,15 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data/
 
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    restart: always
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8080:8080"
+
 volumes:
   dbdata:
