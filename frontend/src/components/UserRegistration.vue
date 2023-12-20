@@ -20,6 +20,7 @@
 
 <script>
 import axios from "axios";
+import config from "../config";
 
 export default {
   data() {
@@ -40,7 +41,7 @@ export default {
     },
     async performRegistration() {
       try {
-        const response = await axios.post("http://localhost:8000/api/create/", {
+        const response = await axios.post(`${config.backendUrl}/api/create/`, {
           username: this.username,
           password: this.password,
         });

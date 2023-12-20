@@ -21,6 +21,7 @@
 
 <script>
 import axios from "axios";
+import config from "../config";
 
 export default {
   data() {
@@ -37,7 +38,7 @@ export default {
     async getTodoList() {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get("http://localhost:8000/api/todos/", {
+        const response = await axios.get(`${config.backendUrl}/api/todos/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -51,7 +52,7 @@ export default {
       const token = localStorage.getItem("token");
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/todos/",
+          `${config.backendUrl}/api/todos/`,
           {
             title: this.title,
             description: this.description,
@@ -72,7 +73,7 @@ export default {
     async deleteTask(task) {
       const token = localStorage.getItem("token");
       try {
-        await axios.delete(`http://localhost:8000/api/todos/${task.id}/`, {
+        await axios.delete(`${config.backendUrl}/api/todos/${task.id}/`, {
           headers: {
             Authorization: `Token ${token}`,
           },
