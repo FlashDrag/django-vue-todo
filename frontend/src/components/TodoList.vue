@@ -7,7 +7,7 @@
         <input type="text" v-model="title" required />
         <br />
         <label for="description">Description:</label>
-        <input type="text" v-model="description" required />
+        <textarea type="text" id="description" cols="30" rows="3" v-model="description"></textarea>
         <br />
         <button type="submit" class="btn">Submit</button>
       </form>
