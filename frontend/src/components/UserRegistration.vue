@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Sign Up</h2>
-    <form @submit.prevent="register">
+    <form @submit.prevent="register" class="form-container">
       <label for="username">Username:</label>
       <input type="text" v-model="username" required />
       <br />
@@ -11,7 +11,7 @@
       <label for="password2">Confirm Password:</label>
       <input type="password" v-model="password2" required minlength="5" />
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" class="btn">Submit</button>
     </form>
 
     <p>Already have an account? <router-link to="/login">Sign in</router-link></p>
@@ -66,3 +66,36 @@ export default {
   },
 };
 </script>
+<style>
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px; /* Set your desired fixed width */
+  margin-bottom: 20px;
+}
+
+.btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #709472;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+label {
+  display: block;
+  text-align: left;
+}
+</style>
