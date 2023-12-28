@@ -2,14 +2,17 @@ version: '3.9'
 
 services:
   backend:
+    container_name: backend
     build: ./backend
+    command: /scripts/start_dev.sh
     depends_on:
       - db
-    restart: on-failure
+    restart: always
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - django-static:/app/static
     env_file:
       - ./.env
     environment:
@@ -20,6 +23,9 @@ services:
       - SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
       - DEBUG=${DJANGO_DEBUG}
+
+    networks:
+      - main
 
   db:
     image: postgres:16.1-alpine3.19
@@ -34,17 +40,45 @@ services:
       - '5432:5432'
     volumes:
       - dbdata:/var/lib/postgresql/data/
+    networks:
+      - main
 
   frontend:
-    build: ./frontend
+    container_name: frontend
+    build:
+      context: ./frontend
     depends_on:
       - backend
-    restart: always
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
       - "8080:8080"
+    networks:
+      - main
+    environment:
+      - NODE_ENV=development
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/dev/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - main
+    volumes:
+      - ./nginx/dev/dev.conf:/etc/nginx/nginx.conf:ro
+      - django-static:/usr/src/app/static
 
 volumes:
   dbdata:
+  django-static:
+
+networks:
+  main:
+    driver: bridge
