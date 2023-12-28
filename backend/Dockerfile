@@ -17,9 +17,6 @@ RUN python -m venv /py && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     rm -rf /tmp && \
     apk del .tmp-build-deps && \
-    chmod -R +x /scripts && \
-    pip3 list
+    chmod -R +x /scripts
 
 ENV PATH="/scripts:/py/bin:$PATH"
-
-# ENTRYPOINT [ "start_dev.sh" ]
