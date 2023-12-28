@@ -4,7 +4,7 @@ services:
   backend:
     container_name: backend
     build: ./backend
-    command: /scripts/start_prod.sh
+    command: /scripts/start_dev.sh
     depends_on:
       - db
     restart: always
@@ -22,7 +22,7 @@ services:
       - DB_PASS=${DB_PASS}
       - SECRET_KEY=${DJANGO_SECRET_KEY}
       - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
-      - DEBUG=0
+      - DEBUG=1
     networks:
       - main
 
@@ -42,19 +42,36 @@ services:
     networks:
       - main
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    networks:
+      - main
+    environment:
+      - NODE_ENV=development
+
   nginx:
     container_name: nginx
     build:
       context: .
-      dockerfile: ./nginx/prod/Dockerfile
+      dockerfile: ./nginx/dev/Dockerfile
     ports:
       - "80:80"
     depends_on:
       - backend
+      - frontend
     networks:
       - main
     volumes:
-      - ./nginx/prod/prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/dev/dev.conf:/etc/nginx/nginx.conf:ro
       - django-static:/usr/src/app/static
 
 volumes:

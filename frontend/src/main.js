@@ -5,9 +5,12 @@ import App from "./App.vue";
 import UserLogin from "./components/UserLogin.vue";
 import TodoList from "./components/TodoList.vue";
 import UserRegistration from "./components/UserRegistration.vue";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8000";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [
     { path: "/", component: TodoList, meta: { requiresAuth: true } },
     { path: "/login", component: UserLogin, meta: { requiresGuest: true } },
@@ -33,4 +36,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router, axios).mount("#app");

@@ -7,7 +7,6 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./scripts /scripts
 COPY . /app
-
 WORKDIR /app
 
 RUN python -m venv /py && \
@@ -20,8 +19,4 @@ RUN python -m venv /py && \
     apk del .tmp-build-deps && \
     chmod -R +x /scripts
 
-EXPOSE 8000
-
 ENV PATH="/scripts:/py/bin:$PATH"
-
-ENTRYPOINT [ "entrypoint.sh" ]

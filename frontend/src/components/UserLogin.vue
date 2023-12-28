@@ -16,7 +16,7 @@
 </template>
 <script>
 import axios from "axios";
-import config from "../config";
+
 export default {
   data() {
     return {
@@ -27,7 +27,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post(`${config.backendUrl}/api/token/`, {
+        const response = await axios.post(`/api/token/`, {
           username: this.username,
           password: this.password,
         });
