@@ -44,3 +44,16 @@ $ docker compose -f docker-compose.dev.yml up --build
     - Backend: `django-static:/app/static`
     - Nginx: `django-static:/usr/src/app/static`
 - PostgreSQL Data: `dbdata:/var/lib/postgresql/data/`
+
+
+### Deployment issues:
+When the frontend is trying to access the backend API, the following error is thrown in the console:
+```
+Access to XMLHttpRequest at 'http://localhost:8000/api/token/' from origin 'http://ec2-18-201-100-234.eu-west-1.compute.amazonaws.com' has been blocked by CORS policy: The request client is not a secure context and the resource is in more-private address space `local`.
+```
+
+Chrome has implemented CORS-RFC1918, which prevents public network resources from requesting private-network resources - unless the public-network resource is secure (HTTPS) and the private-network resource provides appropriate (yet-undefined) CORS headers.
+
+https://stackoverflow.com/questions/66534759/cors-error-on-request-to-localhost-dev-server-from-remote-site
+
+**Use Mozilla Firefox instead of Chrome to access the site.**
